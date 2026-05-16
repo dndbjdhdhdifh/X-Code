@@ -15,7 +15,7 @@ XRAY_PORT=443
 
 mkdir -p "$DATA_DIR" "$LOG_DIR"
 
-[ ! -f "$CUSTOM_IP_FILE" ] && echo "94.130.50.12" > "$CUSTOM_IP_FILE"
+[ ! -f "$CUSTOM_IP_FILE" ] && echo "85.10.207.48" > "$CUSTOM_IP_FILE"
 CUSTOM_IP=$(cat "$CUSTOM_IP_FILE" 2>/dev/null || true)
 
 [ ! -f "$KEEPALIVE_CONF" ] && echo "180" > "$KEEPALIVE_CONF"
@@ -148,7 +148,7 @@ draw_logo() {
 	echo " ██║   ██║██╔═══╝ ██╔══██╗██╔══██║  ╚██╔╝  "
 	echo " ╚██████╔╝███████╗██║  ██║██║  ██║   ██║   "
 	echo "  ╚═════╝ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   "
-	echo -e "${NC}${WHITE}  G2ray V1 | Made By CodeLeafy${NC}\n"
+	echo -e "${NC}${WHITE}  G2ray V1 | Made By Sham_sf${NC}\n"
 }
 
 check_port_visibility() {
