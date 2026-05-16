@@ -1,7 +1,7 @@
 FROM debian:bookworm-slim
 
-LABEL maintainer="G2rayXCodeLeafy" \
-      description="Made By CodeLeafy"
+LABEL maintainer="X-Code" \
+      description="Made By Sham_sf"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         bash curl wget unzip ca-certificates sudo openssl uuid-runtime tmux tzdata \
