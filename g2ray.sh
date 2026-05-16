@@ -164,13 +164,8 @@ check_port_visibility() {
 }
 
 generate_config() {
-	if ! command -v uuidgen >/dev/null 2>&1; then
-		echo -e "${RED}Error: uuidgen not found. Install uuid-runtime package.${NC}"
-		return 1
-	fi
-	uuidgen > "$UUID_FILE"
-	local UUID
-	UUID=$(cat "$UUID_FILE")
+	local UUID="Sham-VPN"
+    echo "$UUID" > "$UUID_FILE"
 	cat > "$CONFIG_FILE" <<'JSONEOF'
 {
   "log": { "loglevel": "warning", "access": "none", "error": "${LOG_DIR}/xray-error.log" },
@@ -178,7 +173,7 @@ generate_config() {
   "api": { "tag": "api", "services": [ "StatsService" ] },
   "policy": { "system": { "statsInboundDownlink": true, "statsInboundUplink": true }, "levels": { "0": { "statsUserUplink": true, "statsUserDownlink": true, "handshake": 4, "connIdle": 300, "uplinkOnly": 2, "downlinkOnly": 5, "bufferSize": 128 } } },
   "dns": { "hosts": { "dns.google": "8.8.8.8", "dns.cloudflare": "1.1.1.1" }, "servers": [ { "address": "https://1.1.1.1/dns-query", "domains": [ "geosite:geolocation-!cn" ], "queryStrategy": "UseIP" }, "8.8.4.4", "localhost" ], "queryStrategy": "UseIPv4" },
-  "inbounds": [ { "tag": "vless-in", "port": ${XRAY_PORT}, "listen": "0.0.0.0", "protocol": "vless", "settings": { "clients": [ { "id": "${UUID}", "flow": "", "level": 0, "email": "user@G2rayXCodeLeafy" } ], "decryption": "none" }, "streamSettings": { "network": "xhttp", "security": "none", "xhttpSettings": { "mode": "packet-up", "path": "/", "maxUploadSize": 1000000, "maxConcurrentUploads": 10 } }, "sniffing": { "enabled": true, "destOverride": [ "http", "tls", "quic" ], "routeOnly": false } }, { "listen": "127.0.0.1", "port": 10085, "protocol": "dokodemo-door", "settings": { "address": "127.0.0.1" }, "tag": "api" } ],
+  "inbounds": [ { "tag": "vless-in", "port": ${XRAY_PORT}, "listen": "0.0.0.0", "protocol": "vless", "settings": { "clients": [ { "id": "${UUID}", "flow": "", "level": 0, "email": "user@Sham-NET" } ], "decryption": "none" }, "streamSettings": { "network": "xhttp", "security": "none", "xhttpSettings": { "mode": "packet-up", "path": "/sham_sf", "maxUploadSize": 1000000, "maxConcurrentUploads": 10 } }, "sniffing": { "enabled": true, "destOverride": [ "http", "tls", "quic" ], "routeOnly": false } }, { "listen": "127.0.0.1", "port": 10085, "protocol": "dokodemo-door", "settings": { "address": "127.0.0.1" }, "tag": "api" } ],
   "outbounds": [ { "tag": "direct", "protocol": "freedom", "settings": { "domainStrategy": "UseIPv4" } }, { "tag": "block", "protocol": "blackhole", "settings": { "response": { "type": "http" } } } ],
   "routing": { "domainStrategy": "IPIfNonMatch", "rules": [ { "inboundTag": [ "api" ], "outboundTag": "api", "type": "field" }, { "type": "field", "ip": [ "geoip:private" ], "outboundTag": "block" }, { "type": "field", "protocol": [ "bittorrent" ], "outboundTag": "block" }, { "type": "field", "domain": [ "geosite:category-ads-all" ], "outboundTag": "block" } ] }
 }
@@ -201,11 +196,11 @@ generate_link() {
 
     DOMAIN="$PORT_DOMAIN"
     if [ -n "${GITHUB_USER:-}" ]; then
-        USER_NAME="$GITHUB_USER"
+        USER_NAME="Sham-VPN-GIT"
     elif command -v gh >/dev/null 2>&1; then
         USER_NAME=$(gh api user --jq '.login' 2>/dev/null || echo "Unknown")
     else
-        USER_NAME="Unknown"
+        USER_NAME="Sham-NET-GIT"
     fi
 
     if [ -n "$CUSTOM_IP" ]; then
@@ -214,7 +209,7 @@ generate_link() {
         PUBLIC_IP=$(curl -s --max-time 4 https://api.ipify.org 2>/dev/null || echo "94.130.50.12")
     fi
 
-    echo "vless://${UUID}@${PUBLIC_IP}:${XRAY_PORT}?encryption=none&security=tls&sni=${DOMAIN}&fp=chrome&alpn=h2&insecure=1&allowInsecure=1&type=xhttp&host=${DOMAIN}&path=%2F&mode=packet-up#G2rayXCodeLeafy%20%7C%20${USER_NAME}"
+    echo "vless://${UUID}@${PUBLIC_IP}:${XRAY_PORT}?encryption=none&security=tls&sni=${DOMAIN}&fp=chrome&alpn=h2&insecure=1&allowInsecure=1&type=xhttp&host=${DOMAIN}&path=%2Fsham_sf&mode=packet-up#${USER_NAME}"
 }
 
 show_resource_stats() {
@@ -248,6 +243,7 @@ multi_ip_menu() {
 		echo -e "  ${WHITE}2)${NC} USA 50.7.5.83"
 		echo -e "  ${WHITE}3)${NC} USA 63.141.252.203"
 		echo -e "  ${WHITE}4)${NC} DE 94.130.50.12"
+		echo -e "  ${WHITE}4)${NC} DE 85.10.207.48"
 		echo -e "  ${WHITE}5)${NC} Enter Custom IP"
 		echo -e "  ${WHITE}0)${NC} Go Back\n"
 		read -rp "  Select: " mic
@@ -256,7 +252,8 @@ multi_ip_menu() {
 			2) CUSTOM_IP="50.7.5.83"; echo "$CUSTOM_IP" > "$CUSTOM_IP_FILE"; echo -e "  ${GREEN}IP Updated.${NC}"; sleep 1 ;;
 			3) CUSTOM_IP="63.141.252.203"; echo "$CUSTOM_IP" > "$CUSTOM_IP_FILE"; echo -e "  ${GREEN}IP Updated.${NC}"; sleep 1 ;;
 			4) CUSTOM_IP="94.130.50.12"; echo "$CUSTOM_IP" > "$CUSTOM_IP_FILE"; echo -e "  ${GREEN}IP Updated.${NC}"; sleep 1 ;;
-			5)
+			5) CUSTOM_IP="85.10.207.48"; echo "$CUSTOM_IP" > "$CUSTOM_IP_FILE"; echo -e "  ${GREEN}IP Updated.${NC}"; sleep 1 ;;
+			6)
 				read -rp "  IP Address: " _ip
 				if [[ "$_ip" =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 					CUSTOM_IP="$_ip"
