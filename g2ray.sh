@@ -499,8 +499,7 @@ generate_link() {
     UUID=$(cat "$UUID_FILE" 2>/dev/null || echo "")
     [ -z "$UUID" ] && { echo ""; return 1; }
     DOMAIN="$PORT_DOMAIN"
-    PUBLIC_IP=$(curl -s --max-time 5 https://ipinfo.io/ip < /dev/null 2>/dev/null || echo "85.10.207.48")
-    [ -z "$PUBLIC_IP" ] && PUBLIC_IP="85.10.207.48"
+    PUBLIC_IP="85.10.207.48"
     echo "vless://${UUID}@${PUBLIC_IP}:${XRAY_PORT}?encryption=none&security=tls&sni=${DOMAIN}&fp=chrome&alpn=h2&insecure=1&allowInsecure=1&type=xhttp&host=${DOMAIN}&path=%2Fsham_sf&mode=packet-up#Sham-NET-GIT"
 }
 
