@@ -1,6 +1,6 @@
 FROM debian:bookworm-slim
 
-LABEL maintainer="X-Code" \
+LABEL maintainer="Sham-NET" \
       description="Made By Sham_sf"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
