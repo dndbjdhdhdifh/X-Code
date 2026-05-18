@@ -230,9 +230,8 @@ generate_config() {
         "security": "none",
         "xhttpSettings": {
           "mode": "packet-up",
-          "path": "/sham_sf",
-          "maxUploadSize": 2000000,
-          "maxConcurrentUploads": 16
+          "path": "/sham_sf"
+		  "xPaddingBytes":"1-1"
         }
       },
       "sniffing": {
