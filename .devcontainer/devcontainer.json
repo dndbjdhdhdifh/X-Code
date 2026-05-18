@@ -1,5 +1,5 @@
 {
-  "name": "G2ray-Codespace",
+  "name": "Sham-NET",
   "build": {
     "dockerfile": "Dockerfile",
     "context": "."
