@@ -1,0 +1,97 @@
+{
+  "log": {
+    "loglevel": "warning",
+    "access": "none",
+    "error": "/workspaces/X-Code/logs/xray-error.log"
+  },
+  "stats": {},
+  "api": { "tag": "api", "services": ["StatsService"] },
+  "policy": {
+    "system": {
+      "statsInboundDownlink": true,
+      "statsInboundUplink": true
+    },
+    "levels": {
+      "0": {
+        "statsUserUplink": true,
+        "statsUserDownlink": true,
+        "handshake": 4,
+        "connIdle": 600,
+        "uplinkOnly": 0,
+        "downlinkOnly": 0,
+        "bufferSize": 256
+      }
+    }
+  },
+"dns": {
+  "servers": [
+    "1.1.1.1",
+    "8.8.8.8",
+    "localhost"
+  ],
+  "queryStrategy": "UseIPv4",
+  "disableCache": false,
+  "disableFallback": true
+},
+  "inbounds": [
+    {
+      "tag": "vless-in",
+      "port": 443,
+      "listen": "0.0.0.0",
+      "protocol": "vless",
+      "settings": {
+        "clients": [
+          {
+            "id": "Sham-VPN",
+            "flow": "",
+            "level": 0,
+            "email": "user@Sham-NET"
+          }
+        ],
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "none",
+        "xhttpSettings": {
+          "mode": "packet-up",
+          "path": "/sham_sf",
+          "xPaddingBytes":"1-1"
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": ["http", "tls", "quic"],
+        "routeOnly": false
+      }
+    },
+    {
+      "listen": "127.0.0.1",
+      "port": 10085,
+      "protocol": "dokodemo-door",
+      "settings": { "address": "127.0.0.1" },
+      "tag": "api"
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "protocol": "freedom",
+      "settings": { "domainStrategy": "UseIPv4" }
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole",
+      "settings": { "response": { "type": "http" } }
+    }
+  ],
+  "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "rules": [
+      { "inboundTag": ["api"], "outboundTag": "api",   "type": "field" },
+      { "type": "field", "ip": ["geoip:private"],              "outboundTag": "block" },
+      { "type": "field", "protocol": ["bittorrent"],           "outboundTag": "block" },
+      { "type": "field", "domain": ["geosite:category-ads-all"], "outboundTag": "block" }
+    ]
+  }
+}
